@@ -1,4 +1,5 @@
 using Backend_transacciones.DbContext;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
@@ -11,6 +12,9 @@ CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 builder.Services.AddDbContext<TransaccionesContext>(op =>
 op.UseSqlServer(builder.Configuration.GetConnectionString("transacciones")));
 
+//configurando fluentvalidation
+
+
 //configurando cors para entorno de desarrollo
 builder.Services.AddCors(op =>
 {
@@ -21,7 +25,11 @@ builder.Services.AddCors(op =>
     });
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation(configuracion =>
+        {
+            configuracion.RegisterValidatorsFromAssemblyContaining<Program>();
+        });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

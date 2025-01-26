@@ -3,6 +3,7 @@ namespace Backend_transacciones.DbContext
 {
     using Backend_transacciones.Modelos;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Data.SqlClient;
     using Microsoft.EntityFrameworkCore;
     public class TransaccionesContext : DbContext
     {
@@ -11,9 +12,18 @@ namespace Backend_transacciones.DbContext
         public DbSet<TarjetasModel> Tarjetas { get; set; }
         public DbSet<TransaccionesModel> Transacciones { get; set; }
 
-        public IQueryable<TransaccionesModel> TransaccionesDeTarjeta (string id)
+        public async Task IngresarTransaccion(string tipo, Guid tarjeta, decimal monto, string desc, DateTime fecha)
         {
-            return Transacciones.FromSqlRaw($"Select * from Transacciones where TarjetaID = {id}").AsNoTracking();
+            var parametroTipo = new SqlParameter("@tipo", tipo);
+            var parametroTarjeta = new SqlParameter("@tarjeta", tarjeta);
+            var parametroMonto = new SqlParameter("@monto", monto);
+            var parametrofecha = new SqlParameter("@fecha", fecha);
+            var parametroDescripcion = new SqlParameter("@descrip", desc);
+
+            await this.Database.ExecuteSqlRawAsync(
+                "EXEC NuevaTransaccion @tipo,@monto,@tarjeta,@fecha,@descrip",
+                parametroTipo, parametroMonto, parametroTarjeta, parametrofecha, parametroDescripcion
+                );
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +42,7 @@ namespace Backend_transacciones.DbContext
             modelBuilder.Entity<TransaccionesModel>(trs =>
             {
                 trs.HasKey(transaccion => transaccion.TransaccionID);
+                trs.HasOne(transaccion => transaccion.TarjetaAsociada).WithMany(tarjeta => tarjeta.TransaccionesDeTarjeta).HasForeignKey(transac=> transac.TarjetaID);
             });
 
             base.OnModelCreating(modelBuilder);

@@ -5,9 +5,9 @@ TarjetaID uniqueidentifier not null,
 Numero varchar(16),
 NombresTitular varchar(50),
 ApellidosTitular varchar(50),
-Limite decimal,
-PIC decimal, --Porcentaje Interés Configurable
-PCSM decimal --Porcentaje Configurable Saldo Mínimo
+Limite decimal(18,5),
+PIC decimal(18,5), --Porcentaje Interés Configurable
+PCSM decimal(18,5) --Porcentaje Configurable Saldo Mínimo
 , constraint PK_ID_Tarjeta Primary key (TarjetaID)
 );
 
@@ -16,7 +16,7 @@ Create Table Transacciones (
 TransaccionID uniqueidentifier not null,
 TarjetaID uniqueidentifier not null,
 Tipo varchar(1), --C para cargo o A para abono
-Monto decimal,
+Monto decimal(18,5),
 Fecha date,
 Descripcion text,
 Constraint PK_ID_Transaccion Primary Key (TransaccionID),
@@ -48,3 +48,81 @@ VALUES
 (NEWID(), @TarjetaID3, 'A', 75.00, '2025-01-07', ''),
 (NEWID(), @TarjetaID4, 'C', 500.00, '2025-01-04', 'Compra de muebles'),
 (NEWID(), @TarjetaID4, 'A', 400.00, '2025-01-08', '');
+
+--Procedimiento alamcenado para la creacion de una nueva tarjeta 
+create procedure NuevaTarjeta
+	@numero varchar(16),
+	@nombresT varchar(16),
+	@apelllidosT varchar(16),
+	@limite decimal(18,5),
+	@pic decimal(18,5),
+	@pcsm decimal(18,5)
+	as begin
+	set nocount on ;
+
+	if LEN(@numero) <> 16 OR @numero is null
+	begin
+		RAISERROR('El numero de tarjeta debe ser de 16 digitos',16,1);
+	end
+
+	if LEN(@nombresT) < 1 OR @nombresT is null
+	begin
+		RAISERROR('Nombre muy corto',16,1);
+	end
+
+	if LEN(@apelllidosT) < 1 OR @apelllidosT is null
+	begin
+		RAISERROR('Apellidos muy cortos',16,1);
+	end
+
+	if @pic < 0  OR @pic = 0 or @pic is null
+	begin
+		RAISERROR('pic debe ser mayor que 0',16,1);
+	end
+
+	if @pcsm < 0  OR @pcsm = 0 or @pcsm is null
+	begin
+		RAISERROR('pcsm debe ser mayor que 0',16,1);
+	end
+
+	if @limite < 0  OR @limite = 0 or @limite is null
+	begin
+		RAISERROR('pcsm debe ser mayor que 0',16,1);
+	end
+
+
+
+	insert into Tarjetas(TarjetaID,Numero,NombresTitular,ApellidosTitular,Limite,PIC,PCSM)
+	values(NEWID(),@numero,@nombresT,@apelllidosT,@limite,@pic,@pcsm);
+
+	end;
+
+--Prodimiento almacenado para la creacion de nuevas transacciones
+
+create procedure NuevaTransaccion
+	@tipo varchar(1),
+	@monto decimal(18,5),
+	@tarjeta uniqueidentifier,
+	@fecha date,
+	@descrip text 
+	as begin
+	set nocount on;
+
+	if LEN(@tipo) <> 1 OR @tipo is null
+	begin
+		RAISERROR('El tipo es invalido',16,1);
+	end
+
+	if LEN(@monto) < 0 OR @monto is null
+	begin
+		RAISERROR('El monto es invalido',16,1);
+	end
+
+	if  @fecha is null
+	begin
+		RAISERROR('La fecha es invalido',16,1);
+	end
+
+	insert into Transacciones(TransaccionID,TarjetaID,Tipo,Monto,Fecha,Descripcion)
+	values(NEWID(),@tarjeta,@tipo,@monto,@fecha,iif(@descrip is null,'',@descrip))
+end

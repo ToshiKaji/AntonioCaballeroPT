@@ -86,3 +86,14 @@ C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\
 C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\obj\Debug\net8.0\Backend_transacciones.pdb
 C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\obj\Debug\net8.0\Backend_transacciones.genruntimeconfig.cache
 C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\obj\Debug\net8.0\ref\Backend_transacciones.dll
+C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\bin\Debug\net8.0\FluentValidation.dll
+C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
+C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\bin\Debug\net8.0\ClosedXML.dll
+C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\bin\Debug\net8.0\ClosedXML.Parser.dll
+C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\bin\Debug\net8.0\RBush.dll
+C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\Users\Usuario\Documents\PruebaBA\Backend_transacciones\Backend_transacciones\bin\Debug\net8.0\System.IO.Packaging.dll

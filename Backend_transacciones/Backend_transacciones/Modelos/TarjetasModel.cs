@@ -11,9 +11,6 @@
         public decimal PCSM { get; set; }
          //para poder recorrer las transacciones de forma mas facil
         public ICollection<TransaccionesModel> TransaccionesDeTarjeta { get;set;} 
-
-
-
         
     }
 }
