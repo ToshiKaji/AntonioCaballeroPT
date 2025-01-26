@@ -26,23 +26,6 @@ namespace Backend_transacciones.Controllers
         }
 
 
-        // GET api/<TransaccionesController>/5
-        
-        [HttpGet("{id}")]
-        public async Task<IEnumerable<TransaccionesModel>> TransaccionesPorTarjeta(string id)
-        {
-            var transacciones = await _context.Transacciones.Where(transaccion => transaccion.TarjetaID.ToString() == id).Include(transaccion => transaccion.TarjetaAsociada).Select(transaccion => new TransaccionesModel
-            {
-                TarjetaAsociada = transaccion.TarjetaAsociada,
-                Tipo = transaccion.Tipo,
-                Monto = transaccion.Monto,
-                Fecha = transaccion.Fecha,
-                TransaccionID = transaccion.TransaccionID
-            }).ToListAsync();
-            
-
-            return transacciones;
-        }
 
         // POST api/<TransaccionesController>
         [HttpPost("Cargo")]

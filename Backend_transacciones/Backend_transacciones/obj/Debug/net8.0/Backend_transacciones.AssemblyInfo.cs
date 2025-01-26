@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Backend_transacciones")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bb5631f8281322701139cd4c253628341a2b2501")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fbfa0ed9ed17e87ca146caddc66c3eb2107e9ac0")]
 [assembly: System.Reflection.AssemblyProductAttribute("Backend_transacciones")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Backend_transacciones")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

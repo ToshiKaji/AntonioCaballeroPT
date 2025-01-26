@@ -29,7 +29,7 @@ namespace Backend_transacciones.Controllers
         // "EstadoDeCuenta/{id de la tarjeta}"
         [HttpGet("EstadoDeCuenta/{id}")]
         
-        public async Task<EstadoDeCuentaDTO> ObtenerEstadoDeCuenta(string id)
+        public async Task<ActionResult<EstadoDeCuentaDTO>> ObtenerEstadoDeCuenta(string id)
         {
             var hoy = DateTime.Now;
             
@@ -61,14 +61,19 @@ namespace Backend_transacciones.Controllers
 
                
 
-            }).FirstAsync();
+            }).FirstOrDefaultAsync();
+
+            if(transacciones == null)
+            {
+                return BadRequest("Tarjeta no existente.");
+            }
 
             return transacciones;
         }
 
 
         [HttpGet("Transacciones/{id}")]
-        public async Task<EstadoDeCuentaDTO> TransaccionesDetarjeta(string id)
+        public async Task<ActionResult<EstadoDeCuentaDTO>> TransaccionesDetarjeta(string id)
         {
             var hoy = DateTime.Now;
             var transacciones = await _context.Tarjetas.Where(tarjeta => tarjeta.TarjetaID.ToString() == id).Include(transac => transac.TransaccionesDeTarjeta).Select(tarjeta => new EstadoDeCuentaDTO
@@ -84,8 +89,12 @@ namespace Backend_transacciones.Controllers
                     Monto = transac.Monto
                 }).ToList()
 
-            }).FirstAsync();
+            }).FirstOrDefaultAsync();
 
+            if (transacciones == null)
+            {
+                return BadRequest("Tarjeta no existente.");
+            }
             return transacciones;
         
         }

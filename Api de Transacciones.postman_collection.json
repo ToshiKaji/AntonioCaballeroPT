@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "f7cf06a9-ca02-4efc-a8d2-db9410dfb932",
+		"name": "Api de Transacciones",
+		"description": "# 🚀 Por Antonio Caballero\n\nUn recoleccion breve de los parametros que toma la api para poder ser probada y consumida\n\n### Considereaciones basicas de las transacciones\n\nlas transacciones estan agrupadas en tods tipo las \"C\" de cargos/compras y las tipo \"A\" que son abonos/pagos, estas validaciones estan presentes en el modelo asi como solo permitor comentarios vacios cuando se trate de una transaccion de tipo \"A\", tambien el monto debe ser positivo en ambos casos con la diferencia que para poder ingresar una compra el monto de esas no debe superar al saldo actual de la tarjeta",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27285052"
+	},
+	"item": [
+		{
+			"name": "Obtener todas las tarjetas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7002/api/Tarjetas",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"api",
+						"Tarjetas"
+					]
+				},
+				"description": "Este endpoint esta hecho para que se puedan obtener todas las tarjetas y los ID de estas y se puedan hacer pruebas de forma sencilla"
+			},
+			"response": []
+		},
+		{
+			"name": "Estado de cuenta por tarjeta",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7002/api/Tarjetas/EstadoDeCuenta/ff6e9ccd-7400-4622-88ee-1738bd9e5b50",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"api",
+						"Tarjetas",
+						"EstadoDeCuenta",
+						"ff6e9ccd-7400-4622-88ee-1738bd9e5b50"
+					]
+				},
+				"description": "Con este endpoint obtenemos la tarjeta desdeada por medio de su id y obtenemos un objetos que nos devuelve los calculos de las cuotras configurables y los intereses en base a los gatos y porcentajes configurables, ademas de la informacion basica de identiifacion de nuestra tarjeta y las compras realizadas en el mes"
+			},
+			"response": []
+		},
+		{
+			"name": "Todas las transacciones por tarjeta",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7002/api/Tarjetas/Transacciones/ff6e9ccd-7400-4622-88ee-1738bd9e5b50",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"api",
+						"Tarjetas",
+						"Transacciones",
+						"ff6e9ccd-7400-4622-88ee-1738bd9e5b50"
+					]
+				},
+				"description": "Con esta api podemps traer las compras y pagos por tarjeta asi como un pequeño resumen de las compras del mes pasado"
+			},
+			"response": []
+		},
+		{
+			"name": "Ingreso de cargos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"tarjeta\": \"ff6e9ccd-7400-4622-88ee-1738bd9e5b50\",\r\n  \"tipo\": \"C\", \r\n  \"descripcion\": \"algo\",\r\n  \"monto\": 1.5,\r\n  \"fecha\": \"2025-01-26\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7002/api/Transacciones/Cargo",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"api",
+						"Transacciones",
+						"Cargo"
+					]
+				},
+				"description": "Aunque cargos y pagos ejecueten la misma funcion almaceanda en sql este ednpoint de cargos posee una validacion logica que no permite ingresar la compra si la suma de todos sus gastos en el mes el superior a su saldo disponible y tambien no se pueden ingresar fechas en el futueo, solo en un rango de un mes desde el dia del ingreso hacia atras"
+			},
+			"response": []
+		},
+		{
+			"name": "Ingreso de pago",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"tarjeta\": \"ff6e9ccd-7400-4622-88ee-1738bd9e5b50\",\r\n  \"tipo\": \"A\", \r\n  \"descripcion\": \"algo\",\r\n  \"monto\": 1.5,\r\n  \"fecha\": \"2025-01-26\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7002/api/Transacciones/Pago",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"api",
+						"Transacciones",
+						"Pago"
+					]
+				},
+				"description": "En este endpoint se ingresa la transacciond de tipo pago, este no posee mayores validaciones mas alla de las de fluentvalidation o las descritas al inicio"
+			},
+			"response": []
+		},
+		{
+			"name": "Exportar compras",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7002/api/Transacciones/ExportarTransacciones/ff6e9ccd-7400-4622-88ee-1738bd9e5b50",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7002",
+					"path": [
+						"api",
+						"Transacciones",
+						"ExportarTransacciones",
+						"ff6e9ccd-7400-4622-88ee-1738bd9e5b50"
+					]
+				},
+				"description": "Este endpoint recibe el id de la tarjeta como parametro y a partir de ella agrupa y trae todas las transacciones de tipo compra de la tarjeta para luego crear el excel"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
